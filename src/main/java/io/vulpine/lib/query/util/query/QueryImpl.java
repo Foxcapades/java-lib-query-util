@@ -65,9 +65,7 @@ implements Query < R, S >
     try {
       stmt = getStatement(cn);
 
-      executeStatement(stmt);
-
-      return toResult(stmt);
+      return executeStatement(stmt);
     } finally {
       softCloseStatement();
       softCloseConnection();
@@ -104,12 +102,9 @@ implements Query < R, S >
   }
 
   /**
-   * Constructs a new {@link QueryResult} instance of type {@link R} from the
-   * executed JDBC statement.
+   * Executes the given statement.
    *
-   * @param st Executed statement.
-   *
-   * @return A new {@link R} value.
+   * @param stmt statement to execute.
    */
-  protected abstract R toResult(S st) throws Exception;
+  protected abstract R executeStatement(S stmt) throws Exception;
 }

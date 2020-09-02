@@ -19,6 +19,7 @@ import static io.vulpine.lib.query.util.TestUtil.mockDataSource;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@SuppressWarnings("unchecked")
 class QueryImplTest extends QueryBaseTest {
   protected static Field fStmt;
   protected static Field fCloseStatements;
@@ -190,22 +191,6 @@ class QueryImplTest extends QueryBaseTest {
     }
 
     @Test
-    @DisplayName("passes up exception from #toResult(S)")
-    void test4() throws Exception  {
-      var stmt = getMockStatement();
-      var con = mockConnection(stmt);
-
-      var obj = getTarget();
-      doReturn(con).when(obj).getConnection();
-      doNothing().when(obj).softCloseConnection();
-      when(obj.getStatement(con)).thenReturn(stmt);
-      when(obj.toResult(stmt)).thenThrow(SQLException.class);
-      doCallRealMethod().when(obj).execute();
-
-      assertThrows(SQLException.class, obj::execute);
-    }
-
-    @Test
     @DisplayName("passes up exception from #softCloseConnection()")
     void test5() throws Exception  {
       var stmt = getMockStatement();
@@ -245,11 +230,11 @@ class QueryImplTest extends QueryBaseTest {
 
       var obj = spy(getTest("", () -> con));
       when(obj.getConnection()).thenReturn(con);
-      when(obj.getStatement(con)).thenReturn(stmt);
-      doThrow(SQLException.class).when(obj).executeStatement(stmt);
+      doReturn(stmt).when(obj).getStatement(con);
+      doThrow(Exception.class).when(obj).executeStatement(stmt);
       doCallRealMethod().when(obj).execute();
 
-      assertThrows(SQLException.class, obj::execute);
+      assertThrows(Exception.class, obj::execute);
     }
 
     @Test
@@ -264,7 +249,7 @@ class QueryImplTest extends QueryBaseTest {
       fShareConnection.setBoolean(obj, true);
       when(obj.getConnection()).thenReturn(con);
       when(obj.getStatement(con)).thenReturn(stmt);
-      when(obj.toResult(stmt)).thenReturn(res);
+      doReturn(res).when(obj).executeStatement(stmt);
       doCallRealMethod().when(obj).execute();
 
       assertSame(res, obj.execute());
@@ -276,30 +261,33 @@ class QueryImplTest extends QueryBaseTest {
     return mock(QueryImpl.class);
   }
 
+  @SuppressWarnings("rawtypes")
   protected QueryResult getResult() {
     return mock(QueryResult.class);
   }
 
-  protected < S extends Statement > QueryImpl < ?, S > getTest(String sql, ConnectionProvider provider) {
+  protected < S extends Statement > QueryImpl < QueryResult < Query < ?, ? > >, S >
+  getTest(String sql, ConnectionProvider provider) {
     return new Dummy<>(sql, provider);
   }
-  protected < S extends Statement > QueryImpl < ?, S > getTest(String sql, Connection con) {
+  protected < S extends Statement > QueryImpl < QueryResult < Query < ?, ? > >, S >
+  getTest(String sql, Connection con) {
     return new Dummy<>(sql, con);
   }
-  protected < S extends Statement > QueryImpl < ?, S > getTest(String sql, DataSource ds) {
+  protected < S extends Statement > QueryImpl < QueryResult < Query < ?, ? > >, S >
+  getTest(String sql, DataSource ds) {
     return new Dummy<>(sql, ds);
   }
 
+  @SuppressWarnings("RedundantThrows")
   protected static class Dummy < S extends Statement >
   extends QueryImpl < QueryResult < Query < ?, ? > >, S > {
     public Dummy(String sql, ConnectionProvider fn) { super(sql, fn); }
     public Dummy(String sql, DataSource ds) { super(sql, ds); }
     public Dummy(String sql, Connection cn) { super(sql, cn); }
 
-    protected QueryResult < Query < ?, ? > > toResult(Statement st)
-    throws Exception { return null; }
+    protected QueryResult < Query < ?, ? > > executeStatement(Statement stmt) throws Exception { return null; }
 
-    protected void executeStatement(Statement stmt) throws Exception {}
     protected S getStatement(Connection cn) throws Exception { return null; }
   }
 }

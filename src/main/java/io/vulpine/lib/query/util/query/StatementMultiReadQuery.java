@@ -43,11 +43,6 @@ implements MultiReadQuery < V, C, R, Statement >
   }
 
   @Override
-  protected void executeStatement(Statement stmt) throws Exception {
-    stmt.execute(getSql());
-  }
-
-  @Override
   protected Statement getStatement(Connection cn) throws Exception {
     return cn.createStatement();
   }

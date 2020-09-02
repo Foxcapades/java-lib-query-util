@@ -7,6 +7,7 @@ import javax.sql.DataSource;
 
 import io.vulpine.lib.query.util.ConnectionProvider;
 import io.vulpine.lib.query.util.Query;
+import io.vulpine.lib.query.util.QueryResult;
 import io.vulpine.lib.query.util.VoidQuery;
 
 /**
@@ -16,7 +17,8 @@ import io.vulpine.lib.query.util.VoidQuery;
  * @param <S> Specific type of JDBC <code>Statement</code> that will be used
  *            by this query.
  */
-public abstract class QueryBase< S extends Statement > implements AutoCloseable
+public abstract class QueryBase < S extends Statement >
+implements AutoCloseable
 {
   private final String sql;
 
@@ -134,13 +136,6 @@ public abstract class QueryBase< S extends Statement > implements AutoCloseable
   public boolean isClosed() {
     return closed;
   }
-
-  /**
-   * Executes the given statement.
-   *
-   * @param stmt statement to execute.
-   */
-  protected abstract void executeStatement(S stmt) throws Exception;
 
   /**
    * Creates a new {@link S} instance from the given connection.

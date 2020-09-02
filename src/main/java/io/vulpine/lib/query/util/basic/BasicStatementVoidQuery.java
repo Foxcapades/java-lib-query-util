@@ -2,7 +2,6 @@ package io.vulpine.lib.query.util.basic;
 
 import java.sql.Connection;
 import java.sql.Statement;
-
 import javax.sql.DataSource;
 
 import io.vulpine.lib.query.util.ConnectionProvider;

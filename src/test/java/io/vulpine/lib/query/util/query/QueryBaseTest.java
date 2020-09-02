@@ -4,11 +4,13 @@ import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import javax.sql.DataSource;
 
 import io.vulpine.lib.query.util.ConnectionProvider;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import static io.vulpine.lib.query.util.TestUtil.*;
@@ -337,7 +339,10 @@ public class QueryBaseTest
     return new Dummy <>(sql, ds);
   }
 
-  protected static class Dummy < S extends Statement > extends QueryBase < S > {
+  @SuppressWarnings("RedundantThrows")
+  protected static class Dummy < S extends Statement >
+  extends QueryBase < S >
+  {
     public Dummy(String sql, ConnectionProvider provider) {
       super(sql, provider);
     }
@@ -360,7 +365,6 @@ public class QueryBaseTest
       super.softCloseConnection();
     }
 
-    protected void executeStatement(S stmt) {}
-    protected S getStatement(Connection cn) { return null; }
+    protected S getStatement(Connection cn) throws Exception { return null; }
   }
 }

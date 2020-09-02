@@ -38,11 +38,6 @@ implements MultiReadQuery < V, C, R, PreparedStatement >
   }
 
   @Override
-  protected void executeStatement(PreparedStatement stmt) throws Exception {
-    stmt.execute();
-  }
-
-  @Override
   protected PreparedStatement getStatement(Connection cn) throws Exception {
     var out = cn.prepareStatement(getSql());
     prepareStatement(out);

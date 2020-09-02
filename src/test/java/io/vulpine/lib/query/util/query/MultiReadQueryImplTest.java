@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings("unchecked rawtypes")
 class MultiReadQueryImplTest extends ReadQueryImplTest
 {
   protected static Field fCollectionProvider;
@@ -71,7 +71,7 @@ class MultiReadQueryImplTest extends ReadQueryImplTest
     @Test
     @DisplayName("passes up exception from #parseRow(ResultSet)")
     void test1() throws Exception {
-      Supplier < Collection > val = () -> getValue();
+      Supplier < Collection > val = MultiReadQueryImplTest.this::getValue;
 
       var rs  = mockResultSet();
       doReturn(true).when(rs).next();
@@ -87,7 +87,7 @@ class MultiReadQueryImplTest extends ReadQueryImplTest
     @Test
     @DisplayName("passes up exception from ResultSet#next()")
     void test2() throws Exception {
-      Supplier < Collection > val = () -> getValue();
+      Supplier < Collection > val = MultiReadQueryImplTest.this::getValue;
 
       var rs  = mockResultSet();
       doThrow(SQLException.class).when(rs).next();
@@ -102,7 +102,7 @@ class MultiReadQueryImplTest extends ReadQueryImplTest
     @Test
     @DisplayName("happy path")
     void test3() throws Exception {
-      Supplier < Collection > val = () -> getValue();
+      Supplier < Collection > val = MultiReadQueryImplTest.this::getValue;
 
       var rs  = mockResultSet();
       doReturn(true, true, true, false).when(rs).next();
@@ -172,7 +172,8 @@ class MultiReadQueryImplTest extends ReadQueryImplTest
     return new Dummy(sql, ds);
   }
 
-  private class Dummy extends MultiReadQueryImpl
+  @SuppressWarnings("RedundantThrows")
+  private static class Dummy extends MultiReadQueryImpl
   {
     public Dummy(String sql, ConnectionProvider provider) {
       super(sql, provider);
@@ -192,15 +193,8 @@ class MultiReadQueryImplTest extends ReadQueryImplTest
     }
 
     @Override
-    protected ReadResult toResult(
-      Statement stmt, Object value
-    ) throws Exception {
+    protected ReadResult toResult(Statement stmt, Object value) throws Exception {
       return null;
-    }
-
-    @Override
-    protected void executeStatement(Statement stmt) throws Exception {
-
     }
 
     @Override

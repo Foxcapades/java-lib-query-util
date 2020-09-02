@@ -3,7 +3,6 @@ package io.vulpine.lib.query.util.query;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import javax.sql.DataSource;
 
 import io.vulpine.lib.query.util.ConnectionProvider;
@@ -13,10 +12,12 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static io.vulpine.lib.query.util.TestUtil.mockConnection;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+@SuppressWarnings("ResultOfMethodCallIgnored")
 class VoidQueryBaseTest extends QueryBaseTest
 {
   @BeforeAll

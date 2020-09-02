@@ -46,14 +46,10 @@ extends QueryImpl < R, S >
   }
 
   @Override
-  protected R toResult(S st) throws Exception {
-    try (var rs = getResultSet(st)) {
-      return toResult(st, parseResult(rs));
+  protected R executeStatement(S stmt) throws Exception {
+    try (var rs = stmt.executeQuery(getSql())) {
+      return toResult(stmt, parseResult(rs));
     }
-  }
-
-  protected ResultSet getResultSet(S st) throws Exception {
-    return st.getResultSet();
   }
 
   /**
@@ -71,7 +67,7 @@ extends QueryImpl < R, S >
    * Parses the given result set into an instance of {@link V}.
    * <p>
    * The <code>ResultSet</code> will be closed immediately after this function
-   * is called by the calling method {@link #toResult(Statement)}.
+   * is called.
    *
    * @param rs <code>ResultSet</code> instance to use when creating an instance
    *           of {@link V}

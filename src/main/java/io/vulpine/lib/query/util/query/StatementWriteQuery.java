@@ -24,8 +24,9 @@ extends WriteQueryImpl < R, Statement >
   }
 
   @Override
-  protected void executeStatement(Statement stmt) throws Exception {
+  protected R executeStatement(Statement stmt) throws Exception {
     stmt.execute(getSql());
+    return toResult(stmt);
   }
 
   @Override

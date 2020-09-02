@@ -4,9 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.function.Supplier;
 import javax.sql.DataSource;
 
 import io.vulpine.lib.query.util.ConnectionProvider;
@@ -18,7 +16,7 @@ import org.junit.jupiter.api.Test;
 
 import static io.vulpine.lib.query.util.TestUtil.mockConnection;
 import static io.vulpine.lib.query.util.TestUtil.mockDataSource;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
 class ListReadQueryImplTest extends MultiReadQueryImplTest {
@@ -30,10 +28,11 @@ class ListReadQueryImplTest extends MultiReadQueryImplTest {
 
   @Nested
   @DisplayName("#this(...)")
+  @SuppressWarnings("rawtypes")
   class Constructors {
     @Test
     @DisplayName("sets default list constructor")
-    void test1() throws Exception {
+    void test1() {
       var obj1 = getTest("", () -> null);
       assertEquals(new ArrayList(), obj1.getCollectionProvider().get());
 
@@ -46,31 +45,37 @@ class ListReadQueryImplTest extends MultiReadQueryImplTest {
   }
 
   @Override
+  @SuppressWarnings("rawtypes")
   protected ListReadQueryImpl getTarget() {
     return mock(ListReadQueryImpl.class);
   }
 
   @Override
+  @SuppressWarnings("rawtypes")
   protected List getValue() {
     return new ArrayList();
   }
 
   @Override
+  @SuppressWarnings("rawtypes")
   protected ListReadQueryImpl getTest(String sql, ConnectionProvider fn) {
     return new Dummy(sql, fn);
   }
 
   @Override
+  @SuppressWarnings("rawtypes")
   protected ListReadQueryImpl getTest(String sql, Connection con) {
     return new Dummy(sql, con);
   }
 
   @Override
+  @SuppressWarnings("rawtypes")
   protected ListReadQueryImpl getTest(String sql, DataSource ds) {
     return new Dummy(sql, ds);
   }
 
   @Override
+  @SuppressWarnings("rawtypes")
   protected ReadResult getResult() {
     return super.getResult();
   }
@@ -80,6 +85,7 @@ class ListReadQueryImplTest extends MultiReadQueryImplTest {
     return super.getMockStatement();
   }
 
+  @SuppressWarnings({"rawtypes", "RedundantThrows"})
   private static class Dummy extends ListReadQueryImpl
   {
     public Dummy(String sql, ConnectionProvider provider) {
@@ -100,14 +106,8 @@ class ListReadQueryImplTest extends MultiReadQueryImplTest {
     }
 
     @Override
-    protected ReadResult toResult(Statement stmt, Object value)
-    throws Exception {
+    protected ReadResult toResult(Statement stmt, Object value) throws Exception {
       return null;
-    }
-
-    @Override
-    protected void executeStatement(Statement stmt) throws Exception {
-
     }
 
     @Override

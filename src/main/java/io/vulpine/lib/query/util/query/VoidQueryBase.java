@@ -7,7 +7,7 @@ import javax.sql.DataSource;
 import io.vulpine.lib.query.util.ConnectionProvider;
 import io.vulpine.lib.query.util.VoidQuery;
 
-public abstract class VoidQueryBase< S extends Statement >
+public abstract class VoidQueryBase < S extends Statement >
 extends QueryBase < S >
 implements VoidQuery < S >
 {
@@ -31,6 +31,13 @@ implements VoidQuery < S >
   public VoidQueryBase(String sql, DataSource ds) {
     super(sql, ds);
   }
+
+  /**
+   * Executes the given statement.
+   *
+   * @param stmt statement to execute.
+   */
+  protected abstract void executeStatement(S stmt) throws Exception;
 
   @Override
   public VoidQueryBase < S > shareConnection(boolean flag) {

@@ -16,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
+@SuppressWarnings("unchecked")
 class PreparedVoidQueryTest extends VoidQueryBaseTest
 {
   @BeforeAll
@@ -112,6 +113,7 @@ class PreparedVoidQueryTest extends VoidQueryBaseTest
     return new Dummy(sql, ds);
   }
 
+  @SuppressWarnings("RedundantThrows")
   private static class Dummy extends PreparedVoidQuery {
     public Dummy(String sql, ConnectionProvider provider) {
       super(sql, provider);

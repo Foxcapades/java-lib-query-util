@@ -38,12 +38,6 @@ implements SetReadQuery < V, R, PreparedStatement >
     super(sql, cn);
   }
 
-
-  @Override
-  protected void executeStatement(PreparedStatement stmt) throws Exception {
-    stmt.execute();
-  }
-
   @Override
   protected PreparedStatement getStatement(Connection cn) throws Exception {
     var out = cn.prepareStatement(getSql());

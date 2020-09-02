@@ -25,4 +25,6 @@ implements WriteQuery < R, S >
   public WriteQueryImpl(String sql, Connection cn) {
     super(sql, cn);
   }
+
+  protected abstract R toResult(S stmt) throws Exception;
 }
