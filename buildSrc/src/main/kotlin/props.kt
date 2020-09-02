@@ -1,5 +1,4 @@
 import org.gradle.api.JavaVersion
-import javax.lang.model.SourceVersion
 
 data class Developer(
   val id: String,
@@ -12,7 +11,7 @@ object Project {
   val name = "lib-query-util"
   val description = "SQL Query boilerplate abstraction"
   val group = "io.vulpine.lib"
-  val version = "1.0.2"
+  val version = "1.0.3"
   val site = "https://github.com/Vulpine-IO/java-lib-query-util"
   val issues = "https://github.com/Vulpine-IO/java-lib-query-util/issues"
   val license = "MIT"

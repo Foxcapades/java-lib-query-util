@@ -2,6 +2,7 @@ package io.vulpine.lib.query.util.query;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.util.ArrayList;
 import java.util.List;
 import javax.sql.DataSource;
 
@@ -20,6 +21,7 @@ implements MultiReadQuery < V, List < V >, R, PreparedStatement >
    */
   public PreparedListReadQuery(String sql, ConnectionProvider provider) {
     super(sql, provider);
+    setCollectionProvider(ArrayList::new);
   }
 
   /**
@@ -27,6 +29,7 @@ implements MultiReadQuery < V, List < V >, R, PreparedStatement >
    */
   public PreparedListReadQuery(String sql, DataSource ds) {
     super(sql, ds);
+    setCollectionProvider(ArrayList::new);
   }
 
   /**
@@ -34,5 +37,6 @@ implements MultiReadQuery < V, List < V >, R, PreparedStatement >
    */
   public PreparedListReadQuery(String sql, Connection cn) {
     super(sql, cn);
+    setCollectionProvider(ArrayList::new);
   }
 }
