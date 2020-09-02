@@ -119,7 +119,7 @@ public abstract class QueryBase< S extends Statement > implements AutoCloseable
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   public void close() throws Exception {
     this.closed = true;
@@ -135,6 +135,11 @@ public abstract class QueryBase< S extends Statement > implements AutoCloseable
     return closed;
   }
 
+  /**
+   * Executes the given statement.
+   *
+   * @param stmt statement to execute.
+   */
   protected abstract void executeStatement(S stmt) throws Exception;
 
   /**
