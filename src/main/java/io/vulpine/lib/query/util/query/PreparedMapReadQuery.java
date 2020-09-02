@@ -34,7 +34,9 @@ implements MapReadQuery < K, V, R, PreparedStatement >
 
   @Override
   protected PreparedStatement getStatement(Connection cn) throws Exception {
-    return cn.prepareStatement(getSql());
+    var out = cn.prepareStatement(getSql());
+    prepareStatement(out);
+    return out;
   }
 
   protected abstract void prepareStatement(PreparedStatement ps)
