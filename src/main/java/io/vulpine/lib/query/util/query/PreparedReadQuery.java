@@ -2,6 +2,7 @@ package io.vulpine.lib.query.util.query;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.Statement;
 import javax.sql.DataSource;
 
 import io.vulpine.lib.query.util.ConnectionProvider;
@@ -31,6 +32,13 @@ implements ReadQuery < V, R, PreparedStatement >
    */
   public PreparedReadQuery(String sql, Connection cn) {
     super(sql, cn);
+  }
+
+  @Override
+  protected R executeStatement(PreparedStatement stmt) throws Exception {
+    try (var rs = stmt.executeQuery()) {
+      return toResult(stmt, parseResult(rs));
+    }
   }
 
   @Override

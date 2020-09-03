@@ -41,6 +41,13 @@ implements ReadQuery < V, R, Statement >
   }
 
   @Override
+  protected R executeStatement(Statement stmt) throws Exception {
+    try (var rs = stmt.executeQuery(getSql())) {
+      return toResult(stmt, parseResult(rs));
+    }
+  }
+
+  @Override
   public StatementReadQuery < V, R > shareConnection(boolean flag) {
     return (StatementReadQuery < V, R >) super.shareConnection(flag);
   }

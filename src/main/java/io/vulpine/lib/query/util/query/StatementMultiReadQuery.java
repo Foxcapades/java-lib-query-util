@@ -38,6 +38,13 @@ implements MultiReadQuery < V, C, R, Statement >
   }
 
   @Override
+  protected R executeStatement(Statement stmt) throws Exception {
+    try (var rs = stmt.executeQuery(getSql())) {
+      return toResult(stmt, parseResult(rs));
+    }
+  }
+
+  @Override
   public StatementMultiReadQuery < V, C, R > shareConnection(boolean flag) {
     return (StatementMultiReadQuery < V, C, R >) super.shareConnection(flag);
   }

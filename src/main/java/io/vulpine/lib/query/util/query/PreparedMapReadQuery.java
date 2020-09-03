@@ -28,6 +28,13 @@ implements MapReadQuery < K, V, R, PreparedStatement >
   }
 
   @Override
+  protected R executeStatement(PreparedStatement stmt) throws Exception {
+    try (var rs = stmt.executeQuery()) {
+      return toResult(stmt, parseResult(rs));
+    }
+  }
+
+  @Override
   protected PreparedStatement getStatement(Connection cn) throws Exception {
     var out = cn.prepareStatement(getSql());
     prepareStatement(out);

@@ -45,12 +45,6 @@ extends QueryImpl < R, S >
     super(sql, cn);
   }
 
-  @Override
-  protected R executeStatement(S stmt) throws Exception {
-    try (var rs = stmt.executeQuery(getSql())) {
-      return toResult(stmt, parseResult(rs));
-    }
-  }
 
   /**
    * Constructs a {@link ReadResult} instance implementing type {@link R}

@@ -38,6 +38,13 @@ implements ReadQuery < Set < V >, R, Statement >
   }
 
   @Override
+  protected R executeStatement(Statement stmt) throws Exception {
+    try (var rs = stmt.executeQuery(getSql())) {
+      return toResult(stmt, parseResult(rs));
+    }
+  }
+
+  @Override
   public StatementSetReadQuery < V, R > shareConnection(boolean flag) {
     return (StatementSetReadQuery < V, R >) super.shareConnection(flag);
   }

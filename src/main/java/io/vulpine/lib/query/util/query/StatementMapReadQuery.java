@@ -44,6 +44,13 @@ implements MapReadQuery < K, V, R, Statement >
   }
 
   @Override
+  protected R executeStatement(Statement stmt) throws Exception {
+    try (var rs = stmt.executeQuery(getSql())) {
+      return toResult(stmt, parseResult(rs));
+    }
+  }
+
+  @Override
   public StatementMapReadQuery < K, V, R > shareConnection(boolean flag) {
     return (StatementMapReadQuery < K, V, R >) super.shareConnection(flag);
   }

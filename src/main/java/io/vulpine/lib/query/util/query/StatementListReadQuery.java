@@ -28,6 +28,13 @@ implements MultiReadQuery < V, List < V >, R, Statement >
   }
 
   @Override
+  protected R executeStatement(Statement stmt) throws Exception {
+    try (var rs = stmt.executeQuery(getSql())) {
+      return toResult(stmt, parseResult(rs));
+    }
+  }
+
+  @Override
   public StatementListReadQuery < V, R > shareConnection(boolean flag) {
     return (StatementListReadQuery < V, R >) super.shareConnection(flag);
   }
