@@ -8,6 +8,8 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import io.vulpine.lib.query.util.ConnectionProvider;
+import io.vulpine.lib.query.util.Query;
+import io.vulpine.lib.query.util.QueryResult;
 import io.vulpine.lib.query.util.ReadResult;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -98,6 +100,12 @@ class ListReadQueryImplTest extends MultiReadQueryImplTest {
 
     public Dummy(String sql, Connection cn) {
       super(sql, cn);
+    }
+
+    @Override
+    protected QueryResult < ? extends Query < ?, ? > > executeStatement(Statement stmt)
+    throws Exception {
+      return null;
     }
 
     @Override
