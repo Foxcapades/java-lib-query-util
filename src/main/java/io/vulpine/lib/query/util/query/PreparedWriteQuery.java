@@ -34,7 +34,9 @@ extends WriteQueryImpl < R, PreparedStatement >
 
   @Override
   protected PreparedStatement getStatement(Connection cn) throws Exception {
-    return cn.prepareStatement(getSql());
+    var stmt = cn.prepareStatement(getSql());
+    prepareStatement(stmt);
+    return stmt;
   }
 
   protected abstract void prepareStatement(PreparedStatement ps)
