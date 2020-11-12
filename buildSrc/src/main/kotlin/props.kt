@@ -11,7 +11,7 @@ object Project {
   val name = "lib-query-util"
   val description = "SQL Query boilerplate abstraction"
   val group = "io.vulpine.lib"
-  val version = "2.0.2"
+  val version = "2.1.0"
   val site = "https://github.com/Vulpine-IO/java-lib-query-util"
   val issues = "https://github.com/Vulpine-IO/java-lib-query-util/issues"
   val license = "MIT"
